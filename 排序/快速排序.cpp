@@ -1,29 +1,49 @@
 #include<iostream>
 using namespace std;
-int num[6] = { 21,25,49,7,16,8 };
+int num[7] = { 21,25,49,25,16,8,16 };
+int Partition(int low, int high)
+{
+	int tem = num[low];
+	int i = low;               
+	int j = high;           
+	while (i<j)
+	{
+		while (num[j]>tem&&i<j)
+		{
+			j--;
+		}
+		if (i<j)
+		{
+			swap(num[i], num[j]);
+			i++;
+		}
+		while (num[i]<tem&&i<j)
+		{
+			i++;
+		}
+		if (i<j)
+		{
+			swap(num[i], num[j]);
+			j--;
+		}
+	}
+	return j;
+}
+
 void quicksort(int left, int right)
 {
-
-	int i, j, t;
-	if (left < right)
+	if (left<right)
 	{
-		i = left;
-		j = right;
-		while (1)
-		{
-			while (i + 1 < 6 && num[++i] < num[left]);
-			while (j - 1 >= 0 && num[--j]>num[left]);
-			if (i >= j)  break;
-			swap(num[i], num[j]);
-		}
-		swap(num[left], num[j]);
-		quicksort(left, j - 1);
-		quicksort(j + 1, right);
+		int q = Partition(left, right);
+		quicksort(left, q - 1);
+		quicksort(q + 1, right);
 	}
 }
 
+
 int main()
 {
-	quicksort( 0, 6);
-	for (int i = 0; i < 6; i++) cout << num[i] << " ";
+	quicksort(0, 6);
+	//Partition(0, 5);
+	for (int i = 0; i <= 6; i++)  cout << num[i] << " ";
 }
